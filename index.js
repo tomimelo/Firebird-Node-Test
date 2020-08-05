@@ -13,11 +13,11 @@ app.use( express.json() );
 
 app.use( express.static("public") );
 
-var options = {
+const options = {
 
     "host" : '127.0.0.1',
     "port" : 3050,
-    "database" : 'database.fdb',
+    "database" : 'D:/db/prueba2.fdb',
     "user" : 'SYSDBA',
     "password" : 'masterkey',
     "lowercase_keys" : false, // set to true to lowercase keys
@@ -28,18 +28,24 @@ var options = {
 
 Firebird.attach(options, function(err, db) {
  
-    if (err)
+    if (err) {
         throw err;
- 
+    }
+    
     // db = DATABASE
-    db.query('SELECT * FROM TABLE', function(err, result) {
+    db.query("SELECT * FROM USERS", function(err, result) {
+        if(err){
+            console.log(err);
+        }
+        console.log(result);
         // IMPORTANT: close the connection
         db.detach();
     });
+
  
 });
  
 
 app.listen(process.env.PORT, () => {
-    console.log("Servidor running on port " + process.env.PORT);
+    console.log("Server running on port " + process.env.PORT);
 });
